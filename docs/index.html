@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CausalNetTwin — Counterfactual Network Digital Twin for Safe Agentic Remediation</title>
+<meta name="description" content="A counterfactual network digital twin that estimates the outcome of a proposed routing, queue, ECN, or rate-control action before it is deployed, rejects unsafe candidates, and rolls back when observed behavior diverges from prediction." />
+<meta name="theme-color" content="#050a14" />
+<link rel="canonical" href="https://sunilgentyala.github.io/CausalNetTwin/" />
+
+<link rel="icon" type="image/png" href="assets/logo-512.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="CausalNetTwin — Counterfactual Network Digital Twin" />
+<meta property="og:description" content="Action-conditioned causal inference, an uncertainty-aware safety gate, and verified rollback for multi-tenant AI data-center fabrics." />
+<meta property="og:url" content="https://sunilgentyala.github.io/CausalNetTwin/" />
+<meta property="og:image" content="https://sunilgentyala.github.io/CausalNetTwin/assets/social-card.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="CausalNetTwin" />
+<meta name="twitter:description" content="Counterfactual network digital twin for safe agentic remediation in multi-tenant AI data-center fabrics." />
+<meta name="twitter:image" content="https://sunilgentyala.github.io/CausalNetTwin/assets/social-card.png" />
+
+<style>
+  :root{
+    --bg:#050a14; --bg2:#080f1c; --bg3:#030609; --bg-elev:#0b1424;
+    --border:#132238; --border-soft:#0f2236;
+    --text:#e2e8f0; --text-dim:#94a3b8; --text-faint:#475569;
+    --accent:#38bdf8; --accent2:#a78bfa; --accent3:#0ea5e9;
+    --good:#22c55e; --warn:#fbbf24; --bad:#f87171;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(14,165,233,.14), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(167,139,250,.10), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1020px;margin:0 auto;padding:0 24px}
+  a{color:var(--accent)}
+  code, .mono{font-family:'SFMono-Regular',Consolas,'Courier New',monospace}
+  img{max-width:100%;display:block}
+  ::selection{background:rgba(56,189,248,.3)}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(5,10,20,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .nav-inner{max-width:1020px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .nav-brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;color:#f8fafc;text-decoration:none;flex-shrink:0}
+  .nav-brand img{width:20px;height:20px;border-radius:5px}
+  .nav-links{display:flex;gap:20px;flex-wrap:wrap}
+  .nav-links a{color:var(--text-dim);text-decoration:none;font-size:13px;font-weight:500;transition:color .15s}
+  .nav-links a:hover{color:var(--text)}
+  @media (max-width:760px){ .nav-links{display:none} }
+
+  header{padding:72px 0 56px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .badge{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--text-dim);background:var(--bg2)}
+  .badge.status{color:var(--warn);border-color:#3d2f0a;background:#130f04}
+  .logo-row{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .shield{width:56px;height:56px;border-radius:14px;flex-shrink:0;box-shadow:0 8px 24px -6px rgba(3,105,161,.5)}
+  h1{font-size:38px;font-weight:800;letter-spacing:-.6px;color:#f8fafc}
+  .tagline{font-size:15px;color:var(--text-dim);margin-top:5px}
+  .lead{font-size:17px;color:var(--text-dim);max-width:740px;margin-top:24px}
+  .lead b{color:var(--text);font-weight:600}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .tag{font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:6px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);color:var(--accent)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:9px;font-size:14px;font-weight:600;text-decoration:none;transition:transform .15s,opacity .15s,border-color .15s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:linear-gradient(135deg,#0369a1,#6d28d9);color:white;box-shadow:0 6px 18px -6px rgba(3,105,161,.55)}
+  .btn-primary:hover{opacity:.92}
+  .btn-secondary{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
+  .btn-secondary:hover{border-color:var(--accent)}
+
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:44px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .hstat{background:var(--bg2);padding:16px 14px;text-align:center}
+  .hstat-val{font-size:20px;font-weight:800;color:#f8fafc}
+  .hstat-label{font-size:11px;color:var(--text-faint);margin-top:3px}
+  @media (max-width:560px){ .hero-stats{grid-template-columns:repeat(2,1fr)} }
+
+  section{padding:56px 0;border-bottom:1px solid var(--border);scroll-margin-top:64px}
+  section.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+  section.reveal.in{opacity:1;transform:translateY(0)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+  h2{font-size:22px;font-weight:700;color:#f1f5f9;margin-bottom:8px}
+  .section-sub{color:var(--text-faint);font-size:14px;margin-bottom:26px;max-width:720px}
+
+  .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:700px){ .problem-grid{grid-template-columns:1fr} }
+  .pcard{background:var(--bg2);border:1px solid var(--border-soft);border-radius:10px;padding:18px}
+  .pcard h3{font-size:14px;color:#f1f5f9;margin-bottom:6px}
+  .pcard p{font-size:13px;color:var(--text-dim)}
+  .pcard.bad{border-left:3px solid var(--bad)}
+  .pcard.good{border-left:3px solid var(--good)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--bg2);border:1px solid var(--border-soft);border-radius:10px;overflow:hidden}
+  .table-scroll{overflow-x:auto;border-radius:10px;margin-bottom:18px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border-soft);white-space:nowrap}
+  th{background:var(--bg3);color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+  tr:last-child td{border-bottom:none}
+  td.hl{color:var(--accent);font-weight:700}
+  td.num{font-family:'SFMono-Regular',Consolas,monospace}
+  tr.highlight td{background:rgba(56,189,248,.06)}
+
+  .figure{background:var(--bg2);border:1px solid var(--border-soft);border-radius:10px;padding:16px;margin-bottom:18px}
+  .figure figcaption{font-size:12.5px;color:var(--text-faint);margin-top:10px;text-align:center}
+
+  .flow{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+  .flow-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .flow-box{background:var(--bg2);border:1px solid var(--border-soft);border-radius:10px;padding:14px 16px;font-size:13px;flex:1;min-width:220px}
+  .flow-box b{color:#f1f5f9;display:block;margin-bottom:4px;font-size:13px}
+  .flow-box span{color:var(--text-faint);font-size:12px}
+  .flow-arrow{color:var(--text-faint);font-size:20px;flex-shrink:0}
+  @media (max-width:700px){ .flow-arrow{transform:rotate(90deg)} }
+
+  pre{background:var(--bg3);border:1px solid var(--border-soft);border-radius:10px;padding:18px;overflow-x:auto;font-size:12.5px;line-height:1.55;color:#cbd5e1}
+  .k{color:var(--accent2)} .s{color:var(--good)} .n{color:var(--warn)} .c{color:var(--text-faint)}
+
+  .barchart{margin-top:6px}
+  .bar-row{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:12px;margin-bottom:10px;font-size:12.5px}
+  .bar-label{color:var(--text-dim)}
+  .bar-track{background:var(--bg3);border-radius:6px;height:20px;overflow:hidden;border:1px solid var(--border-soft)}
+  .bar-fill{height:100%;border-radius:6px 0 0 6px}
+  .bar-fill.baseline{background:linear-gradient(90deg,#f87171,#fbbf24)}
+  .bar-fill.twin{background:linear-gradient(90deg,#fbbf24,#94a3b8)}
+  .bar-fill.cnt{background:linear-gradient(90deg,#0ea5e9,#22c55e)}
+  .bar-val{text-align:right;font-family:'SFMono-Regular',Consolas,monospace;color:var(--text-dim)}
+
+  .lim-list{list-style:none}
+  .lim-list li{padding:12px 0;border-bottom:1px solid var(--border-soft);font-size:13.5px;color:var(--text-dim);display:flex;gap:10px}
+  .lim-list li:last-child{border-bottom:none}
+  .lim-list li::before{content:"—";color:var(--warn);flex-shrink:0}
+
+  footer{padding:40px 0 60px;text-align:center;color:var(--text-faint);font-size:12.5px}
+  footer a{color:var(--text-dim)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand"><img src="assets/logo-512.png" alt="">CausalNetTwin</a>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#results">Results</a>
+      <a href="#limitations">Limitations</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="https://github.com/sunilgentyala/CausalNetTwin">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top">
+  <div class="wrap">
+    <div class="badge-row">
+      <span class="badge status">Companion paper — submitted to IEEE INFOCOM 2027</span>
+      <span class="badge">Apache-2.0</span>
+      <span class="badge">Structural simulator, real trial data</span>
+    </div>
+    <div class="logo-row">
+      <img class="shield" src="assets/logo-512.png" alt="CausalNetTwin logo">
+      <div>
+        <h1>CausalNetTwin</h1>
+        <div class="tagline">A Counterfactual Network Digital Twin for Safe Agentic Remediation in Multi-Tenant AI Data-Center Fabrics</div>
+      </div>
+    </div>
+    <p class="lead">
+      An autonomous controller can detect congestion and recommend a routing, queue, marking, or
+      rate-control change — but a predicted improvement doesn't establish that the change is
+      <b>safe</b>. CausalNetTwin estimates the counterfactual outcome of a candidate action under
+      <code>do(A=a)</code> before it touches production, rejects any candidate that violates
+      configured tail-latency, loss, fairness, churn, or SLO limits, and automatically rolls back
+      when the observed outcome diverges from what was approved.
+    </p>
+    <div class="tag-row">
+      <span class="tag">Causal inference</span>
+      <span class="tag">Counterfactual reasoning</span>
+      <span class="tag">Safety-constrained agents</span>
+      <span class="tag">P4 telemetry</span>
+      <span class="tag">Automatic rollback</span>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/sunilgentyala/CausalNetTwin">View source →</a>
+      <a class="btn btn-secondary" href="#results">See the headline result</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val">1,080</div><div class="hstat-label">Method-scenario trials</div></div>
+      <div class="hstat"><div class="hstat-val">6 × 6</div><div class="hstat-label">Methods × scenarios</div></div>
+      <div class="hstat"><div class="hstat-val">61.4%</div><div class="hstat-label">P99 FCT cut vs. ECMP</div></div>
+      <div class="hstat"><div class="hstat-val">0.03%</div><div class="hstat-label">Harmful accepted actions</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="eyebrow">The gap</div>
+    <h2>Detecting congestion isn't the same as knowing an action is safe</h2>
+    <p class="section-sub">Modern AI data centers mix synchronized AllReduce bursts, storage replication, Kafka, Spark shuffle, and latency-sensitive traffic on the same leaf-spine paths. Moving an elephant flow off one congested uplink can overload another tenant's path. Network digital twins support planning and what-if analysis, and recent work adds AI-driven management, closed-loop SLA assurance, and causal optimization — but no reviewed system jointly reports action-level causal testing, explicit multi-tenant safety limits, post-deployment verification, <em>and</em> automatic rollback.</p>
+    <div class="problem-grid">
+      <div class="pcard bad">
+        <h3>What a correlation-only controller does</h3>
+        <p>Attributes a workload-phase transition to its own intervention, because it only conditions on <code>A=a</code> as observed historically — it never asks what would have happened under the intervention specifically.</p>
+      </div>
+      <div class="pcard good">
+        <h3>What CausalNetTwin does</h3>
+        <p>Estimates <code>Y(t;a)</code> under an explicit <code>do(A(t)=a)</code> intervention on a temporal structural causal model, rejects the candidate if any predicted safety bound is violated, and verifies + rolls back after deployment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="positioning">
+  <div class="wrap">
+    <div class="eyebrow">Closest related work</div>
+    <h2>No located system combines all five properties</h2>
+    <p class="section-sub">Condensed from the paper's Table I. Full reference list and discussion in the companion manuscript.</p>
+    <div class="table-scroll">
+    <table>
+      <tr><th>Work</th><th>Action-conditioned causal model</th><th>Multi-tenant AI fabric</th><th>Explicit safety gate</th><th>Post-action verification</th><th>Automated rollback</th></tr>
+      <tr><td>CiiNet</td><td>Yes</td><td>Not evaluated</td><td>Not reported</td><td>Iterative evaluation</td><td>Not reported</td></tr>
+      <tr><td>Trustworthy NDT</td><td>What-if validation</td><td>Not evaluated</td><td>Not reported</td><td>Yes</td><td>Not reported</td></tr>
+      <tr><td>Adaptive NDT</td><td>Predictive model</td><td>Not evaluated</td><td>Not reported</td><td>Drift synchronization</td><td>Not reported</td></tr>
+      <tr><td>C-RAN DTN</td><td>Not reported</td><td>No</td><td>SLA logic</td><td>Yes</td><td>Not reported</td></tr>
+      <tr class="highlight"><td><b>CausalNetTwin</b></td><td class="hl">Yes</td><td class="hl">Yes</td><td class="hl">Yes</td><td class="hl">Yes</td><td class="hl">Yes</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>Six planes, none of which can touch production directly</h2>
+    <p class="section-sub">Telemetry and context feed a causal world model; the counterfactual engine screens candidate actions against the safety gate before anything is deployed; the verifier watches the outcome and restores the previous state on material deviation.</p>
+    <figure class="figure">
+      <img src="assets/architecture.png" alt="CausalNetTwin safety-validated remediation workflow: production fabric to telemetry plane to causal world model to counterfactual intervention engine to safety-constrained agent to verified deployment and rollback, with measured outcome feedback closing the loop.">
+      <figcaption>Fig. 1 — Safety-validated remediation workflow (six stages, closed-loop verification).</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="assets/causal_graph.png" alt="Structural causal graph: workload phase and storage I/O pressure as parent context variables feeding path load and queue occupancy, which drive ECN marking, packet loss, P99 FCT, and SLO risk; candidate action is an intervention variable on path load and queue occupancy.">
+      <figcaption>Fig. 2 — Structural causal graph used for action-conditioned intervention testing. Workload phase and storage pressure are retained as explicit parents so a correlation model can't mistake a phase transition for an intervention effect.</figcaption>
+    </figure>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-box"><b>1. Generate candidates</b><span>Bounded routing, queue-weight, ECN-threshold, and rate-control actions, each with scope, expiry, and a captured rollback command.</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box"><b>2. Estimate Y(a) under do(A=a)</b><span>The counterfactual engine clones current state, applies the intervention, and rolls forward with uncertainty intervals and a causal attribution trace.</span></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-box"><b>3. Safety gate</b><span>Reject any candidate whose predicted confidence bound violates P99 FCT, loss, fairness, churn, or SLO limits — even if its expected mean is better. No-action is a valid result.</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box"><b>4. Deploy, verify, rollback</b><span>Canary the approved action; if observed P99 latency or loss exceeds its predicted value by more than 20% and the deviation is harmful, restore the previous configuration and flag model review.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <div class="eyebrow">Real simulator output — 1,080 trials, 30 seeds</div>
+    <h2>Lower tail latency, and far fewer harmful accepted actions</h2>
+    <p class="section-sub">Generated by <code>experiments/run_benchmark.py</code> against the reproducible structural simulator — every number below is read directly from <code>results/*.csv</code> in the repository, not hand-picked. Six control methods, six workload/failure scenarios, common random numbers across all methods.</p>
+
+    <div class="barchart">
+      <div class="bar-row"><div class="bar-label">ECMP</div><div class="bar-track"><div class="bar-fill baseline" style="width:73.2%"></div></div><div class="bar-val">21.23 ms</div></div>
+      <div class="bar-row"><div class="bar-label">Static-TE</div><div class="bar-track"><div class="bar-fill baseline" style="width:80.3%"></div></div><div class="bar-val">23.30 ms</div></div>
+      <div class="bar-row"><div class="bar-label">Correlation-ML</div><div class="bar-track"><div class="bar-fill baseline" style="width:100%"></div></div><div class="bar-val">29.02 ms</div></div>
+      <div class="bar-row"><div class="bar-label">DRL</div><div class="bar-track"><div class="bar-fill baseline" style="width:86.1%"></div></div><div class="bar-val">24.98 ms</div></div>
+      <div class="bar-row"><div class="bar-label">Twin (no causal)</div><div class="bar-track"><div class="bar-fill twin" style="width:51.8%"></div></div><div class="bar-val">15.03 ms</div></div>
+      <div class="bar-row"><div class="bar-label"><b>CausalNetTwin</b></div><div class="bar-track"><div class="bar-fill cnt" style="width:28.2%"></div></div><div class="bar-val">8.19 ms</div></div>
+    </div>
+    <p class="section-sub" style="margin-top:8px">Aggregate P99 flow completion time across all scenarios and seeds. Lower is better.</p>
+
+    <div class="table-scroll">
+    <table>
+      <tr><th>Method</th><th>P95 ms</th><th>P99 ms</th><th>SLO %</th><th>Loss %</th><th>Fairness</th></tr>
+      <tr><td>ECMP</td><td class="num">18.91</td><td class="num">21.23</td><td class="num">35.87</td><td class="num">0.232</td><td class="num">0.884</td></tr>
+      <tr><td>Static-TE</td><td class="num">16.83</td><td class="num">23.30</td><td class="num">26.53</td><td class="num">0.146</td><td class="num">0.890</td></tr>
+      <tr><td>Correlation-ML</td><td class="num">20.48</td><td class="num">29.02</td><td class="num">23.64</td><td class="num">0.169</td><td class="num">0.883</td></tr>
+      <tr><td>DRL</td><td class="num">15.36</td><td class="num">24.98</td><td class="num">14.02</td><td class="num">0.091</td><td class="num">0.889</td></tr>
+      <tr><td>Twin (no causal)</td><td class="num">8.36</td><td class="num">15.03</td><td class="num">4.79</td><td class="num">0.025</td><td class="num">0.903</td></tr>
+      <tr class="highlight"><td><b>CausalNetTwin</b></td><td class="num hl">4.50</td><td class="num hl">8.19</td><td class="num hl">1.97</td><td class="num hl">0.009</td><td class="num hl">0.910</td></tr>
+    </table>
+    </div>
+
+    <div class="table-scroll">
+    <table>
+      <tr><th>Method</th><th>Source loc. %</th><th>Success %</th><th>Harmful %</th><th>Rollback %</th><th>Churn %</th></tr>
+      <tr><td>Static-TE</td><td class="num">82.06</td><td class="num">82.06</td><td class="num">17.94</td><td class="num">0.00</td><td class="num">3.05</td></tr>
+      <tr><td>Correlation-ML</td><td class="num">72.05</td><td class="num">72.05</td><td class="num">27.95</td><td class="num">0.00</td><td class="num">14.06</td></tr>
+      <tr><td>DRL</td><td class="num">79.16</td><td class="num">79.16</td><td class="num">20.84</td><td class="num">0.00</td><td class="num">17.88</td></tr>
+      <tr><td>Twin (no causal)</td><td class="num">85.16</td><td class="num">85.76</td><td class="num">10.30</td><td class="num">3.94</td><td class="num">11.52</td></tr>
+      <tr class="highlight"><td><b>CausalNetTwin</b></td><td class="num hl">94.03</td><td class="num hl">99.35</td><td class="num hl">0.03</td><td class="num hl">0.62</td><td class="num hl">5.25</td></tr>
+    </table>
+    </div>
+    <p class="section-sub">Diagnostic accuracy and action safety. CausalNetTwin localizes the simulated congestion source correctly in 94.03% of intervention windows and accepts a harmful action in only 0.03% of decisions — down from 10.30% for a non-causal twin and 27.95% for correlation-based ML — while keeping a 99.35% success rate among accepted interventions.</p>
+
+    <figure class="figure">
+      <img src="assets/p99_comparison.png" alt="Bar chart: aggregate P99 flow completion time in milliseconds by control method — ECMP 21.2, Static-TE 23.3, Correlation-ML 29.0, DRL 25.0, Twin-No-Causal 15.0, CausalNetTwin 8.2.">
+      <figcaption>Fig. 3 — Aggregate P99 FCT by control method, as generated directly from the trial CSVs.</figcaption>
+    </figure>
+
+    <div class="table-scroll">
+    <table>
+      <tr><th>Scenario</th><th>ECMP ms</th><th>Twin (no causal) ms</th><th>CausalNetTwin ms</th></tr>
+      <tr><td>Mixed leaf-spine</td><td class="num">13.83</td><td class="num">7.50</td><td class="num hl">2.19</td></tr>
+      <tr><td>Fat-tree AllReduce</td><td class="num">16.42</td><td class="num">10.09</td><td class="num hl">2.49</td></tr>
+      <tr><td>Oversubscribed 4:1</td><td class="num">24.39</td><td class="num">17.74</td><td class="num hl">12.18</td></tr>
+      <tr><td>Link failure</td><td class="num">23.84</td><td class="num">14.76</td><td class="num hl">6.56</td></tr>
+      <tr><td>Elephant arrival</td><td class="num">23.13</td><td class="num">13.16</td><td class="num hl">6.17</td></tr>
+      <tr><td>Backup + AI collision</td><td class="num">25.79</td><td class="num">26.90</td><td class="num hl">19.58</td></tr>
+    </table>
+    </div>
+    <p class="section-sub">P99 FCT by stress scenario. The hardest case — backup replication colliding with AI collective traffic in an oversubscribed fabric — exceeds the nominal 12&nbsp;ms target for every method, because demand exceeds safe capacity. CausalNetTwin still lowers the tail and rejects unsafe route migration rather than fabricating spare capacity.</p>
+  </div>
+</section>
+
+<section id="cost">
+  <div class="wrap">
+    <div class="eyebrow">Cost of causal adjustment</div>
+    <h2>7.19 ms inference, 2.65% telemetry overhead</h2>
+    <p class="section-sub">The counterfactual MAPE is 7.78% for CausalNetTwin versus 13.49% for the non-causal twin and above 18% for correlation-ML/DRL. The additional 1.49 ms over the non-causal twin is the measured cost of causal adjustment, candidate screening, and uncertainty checks — well below the control-window duration used in the experiments.</p>
+    <div class="table-scroll">
+    <table>
+      <tr><th>Method</th><th>Counterfactual MAPE %</th><th>Telemetry overhead %</th><th>Inference ms</th></tr>
+      <tr><td>Correlation-ML</td><td class="num">22.31</td><td class="num">1.46</td><td class="num">2.90</td></tr>
+      <tr><td>DRL</td><td class="num">18.70</td><td class="num">1.77</td><td class="num">4.80</td></tr>
+      <tr><td>Twin (no causal)</td><td class="num">13.49</td><td class="num">2.10</td><td class="num">5.70</td></tr>
+      <tr class="highlight"><td><b>CausalNetTwin</b></td><td class="num hl">7.78</td><td class="num hl">2.65</td><td class="num hl">7.19</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="quickstart">
+  <div class="wrap">
+    <div class="eyebrow">Reproduce it yourself</div>
+    <h2>Every table above regenerates from a fixed seed</h2>
+    <p class="section-sub">Structural, event-driven simulator — not a packet-level substitute for ns-3 or a P4 testbed. Six automated tests verify deterministic reproduction, safety rejection, rollback behavior, and tail-latency improvement.</p>
+    <pre><span class="c"># clone, install, and reproduce</span>
+git clone https://github.com/sunilgentyala/CausalNetTwin.git
+<span class="k">cd</span> CausalNetTwin_Repo
+python -m venv .venv <span class="c">&amp;&amp; source .venv/bin/activate</span>  <span class="c"># Windows: .venv\Scripts\activate</span>
+pip install -e <span class="s">".[dev]"</span>
+python -m pytest -q
+python -m causalnettwin.cli --output results --seeds <span class="n">30</span> --steps <span class="n">600</span></pre>
+  </div>
+</section>
+
+<section id="limitations">
+  <div class="wrap">
+    <div class="eyebrow">Stated honestly</div>
+    <h2>Limitations and the evidence boundary</h2>
+    <ul class="lim-list">
+      <li>This is a <b>structural control-plane simulation</b>, not a claim of packet-level fidelity or production readiness. It does not reproduce packet scheduling, NIC behavior, PFC, exact RDMA transport, switch-buffer microarchitecture, or controller transport delay.</li>
+      <li>Common seeds and identical workload shocks across methods strengthen internal validity, but parameter choices and graph structure may still favor the proposed design — code and trial records are exposed for independent perturbation and ablation.</li>
+      <li>Causal validity depends on the assumed graph and observed context. Missing edges, stale labels, or unmeasured workload phases can bias an intervention estimate.</li>
+      <li>The 95% confidence intervals summarize simulator trials — they are not packet-level confidence and are not evidence of production safety.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <div class="eyebrow">What's next</div>
+    <h2>Packet-level and hardware validation roadmap</h2>
+    <p class="section-sub">A model version is accepted into the next validation stage only after calibrated intervals on held-out conditions, a low harmful-action rate under real packet scheduling and controller delay, and bounded rollback recovery without a second congestion event.</p>
+    <div class="table-scroll">
+    <table>
+      <tr><th>Layer</th><th>Planned implementation</th><th>Required evidence</th></tr>
+      <tr><td>Topology &amp; traffic</td><td>Containerlab / Mininet; leaf-spine &amp; fat-tree; AllReduce, Kafka, Spark, storage replication</td><td>Per-flow traces, topology files, workload manifests</td></tr>
+      <tr><td>Programmable data plane</td><td>BMv2/P4 INT, ECN marking, queue &amp; path telemetry</td><td>Switch resource cost, timestamp accuracy, telemetry loss</td></tr>
+      <tr><td>Control plane</td><td>ONOS / Ryu, scoped canary deployment, stored rollback state</td><td>Action latency, policy conflicts, rollback completion</td></tr>
+      <tr><td>Scale &amp; failures</td><td>ns-3 and hardware trials with link failure, stale telemetry, oversubscription</td><td>Calibration, recovery time, tail latency, safety violations</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="cite">
+  <div class="wrap">
+    <div class="eyebrow">Citation</div>
+    <h2>Companion manuscript — IEEE INFOCOM 2027 (submitted)</h2>
+    <p class="section-sub">The manuscript itself is intentionally not stored in this repository, in line with IEEE's prior-publication policy. Cite the software artifact via <code>CITATION.cff</code> until the paper is accepted.</p>
+    <pre><span class="c">@software</span>{causalnettwin2026,
+  <span class="k">author</span> = <span class="s">{Gentyala, Sunil and Darisi, Suresh Kumar and Martin, John and Caprio, Floriano}</span>,
+  <span class="k">title</span>  = <span class="s">{CausalNetTwin: A Counterfactual Network Digital Twin for Safe Agentic Remediation}</span>,
+  <span class="k">year</span>   = <span class="n">2026</span>,
+  <span class="k">url</span>    = <span class="s">{https://github.com/sunilgentyala/CausalNetTwin}</span>
+}</pre>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Research artifact by Sunil Gentyala · Apache License 2.0 ·
+    <a href="https://github.com/sunilgentyala/CausalNetTwin">github.com/sunilgentyala/CausalNetTwin</a>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('section');
+  revealEls.forEach(el => el.classList.add('reveal'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
