@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: CausalNetTwin Research Artifact
+message: Please cite the associated CausalNetTwin manuscript and this software artifact.
+type: software
+authors:
+  - family-names: Gentyala
+    given-names: Sunil
+  - family-names: Darisi
+    given-names: Suresh Kumar
+  - family-names: Martin
+    given-names: John
+    affiliation: HCLTech, Auckland, New Zealand
+    email: john-martin@hcltech.com
+  - family-names: Caprio
+    given-names: Floriano
+    affiliation: Università Campus Bio-Medico di Roma
+    email: f.caprio@unicampus.it
+version: 0.1.0
+date-released: 2026-07-23
+license: Apache-2.0
