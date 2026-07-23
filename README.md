@@ -19,7 +19,7 @@ CausalNetTwin is a reproducible research artifact for evaluating counterfactual,
 
 ## Headline result
 
-Across 1,080 method-scenario-seed trials (6 methods × 6 workload/failure scenarios × 30 seeds), CausalNetTwin records **4.50 ms P95 / 8.19 ms P99** flow-completion time — a 61.4% reduction in P99 versus ECMP — while cutting harmful accepted actions from 10.30% (non-causal twin baseline) to **0.03%**. Full tables and the reproduction command are on the [site](https://sunilgentyala.github.io/CausalNetTwin/#results).
+Across 1,080 method-scenario-seed trials (6 methods × 6 workload/failure scenarios × 30 seeds), CausalNetTwin records **4.50 ms P95 / 8.19 ms P99** flow-completion time, a 61.4% reduction in P99 versus ECMP, while cutting harmful accepted actions from 10.30% (non-causal twin baseline) to **0.03%**. Full tables and the reproduction command are on the [site](https://sunilgentyala.github.io/CausalNetTwin/#results).
 
 ## Core capabilities
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CausalNetTwin — Counterfactual Network Digital Twin for Safe Agentic Remediation</title>
+<title>CausalNetTwin: Counterfactual Network Digital Twin for Safe Agentic Remediation</title>
 <meta name="description" content="A counterfactual network digital twin that estimates the outcome of a proposed routing, queue, ECN, or rate-control action before it is deployed, rejects unsafe candidates, and rolls back when observed behavior diverges from prediction." />
 <meta name="theme-color" content="#050a14" />
 <link rel="canonical" href="https://sunilgentyala.github.io/CausalNetTwin/" />
@@ -11,7 +11,7 @@
 <link rel="icon" type="image/png" href="assets/logo-512.png" />
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="CausalNetTwin — Counterfactual Network Digital Twin" />
+<meta property="og:title" content="CausalNetTwin: Counterfactual Network Digital Twin" />
 <meta property="og:description" content="Action-conditioned causal inference, an uncertainty-aware safety gate, and verified rollback for multi-tenant AI data-center fabrics." />
 <meta property="og:url" content="https://sunilgentyala.github.io/CausalNetTwin/" />
 <meta property="og:image" content="https://sunilgentyala.github.io/CausalNetTwin/assets/social-card.png" />
@@ -133,7 +133,7 @@
   .lim-list{list-style:none}
   .lim-list li{padding:12px 0;border-bottom:1px solid var(--border-soft);font-size:13.5px;color:var(--text-dim);display:flex;gap:10px}
   .lim-list li:last-child{border-bottom:none}
-  .lim-list li::before{content:"—";color:var(--warn);flex-shrink:0}
+  .lim-list li::before{content:"•";color:var(--warn);flex-shrink:0}
 
   .authors-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   @media (max-width:700px){ .authors-grid{grid-template-columns:1fr} }
@@ -166,7 +166,7 @@
 <header id="top">
   <div class="wrap">
     <div class="badge-row">
-      <span class="badge status">Companion paper — submitted to IEEE INFOCOM 2027</span>
+      <span class="badge status">Companion paper, submitted to IEEE INFOCOM 2027</span>
       <span class="badge">Apache-2.0</span>
       <span class="badge">Structural simulator, real trial data</span>
     </div>
@@ -179,7 +179,7 @@
     </div>
     <p class="lead">
       An autonomous controller can detect congestion and recommend a routing, queue, marking, or
-      rate-control change — but a predicted improvement doesn't establish that the change is
+      rate-control change, but a predicted improvement doesn't establish that the change is
       <b>safe</b>. CausalNetTwin estimates the counterfactual outcome of a candidate action under
       <code>do(A=a)</code> before it touches production, rejects any candidate that violates
       configured tail-latency, loss, fairness, churn, or SLO limits, and automatically rolls back
@@ -209,11 +209,11 @@
   <div class="wrap">
     <div class="eyebrow">The gap</div>
     <h2>Detecting congestion isn't the same as knowing an action is safe</h2>
-    <p class="section-sub">Modern AI data centers mix synchronized AllReduce bursts, storage replication, Kafka, Spark shuffle, and latency-sensitive traffic on the same leaf-spine paths. Moving an elephant flow off one congested uplink can overload another tenant's path. Network digital twins support planning and what-if analysis, and recent work adds AI-driven management, closed-loop SLA assurance, and causal optimization — but no reviewed system jointly reports action-level causal testing, explicit multi-tenant safety limits, post-deployment verification, <em>and</em> automatic rollback.</p>
+    <p class="section-sub">Modern AI data centers mix synchronized AllReduce bursts, storage replication, Kafka, Spark shuffle, and latency-sensitive traffic on the same leaf-spine paths. Moving an elephant flow off one congested uplink can overload another tenant's path. Network digital twins support planning and what-if analysis, and recent work adds AI-driven management, closed-loop SLA assurance, and causal optimization, but no reviewed system jointly reports action-level causal testing, explicit multi-tenant safety limits, post-deployment verification, <em>and</em> automatic rollback.</p>
     <div class="problem-grid">
       <div class="pcard bad">
         <h3>What a correlation-only controller does</h3>
-        <p>Attributes a workload-phase transition to its own intervention, because it only conditions on <code>A=a</code> as observed historically — it never asks what would have happened under the intervention specifically.</p>
+        <p>Attributes a workload-phase transition to its own intervention, because it only conditions on <code>A=a</code> as observed historically; it never asks what would have happened under the intervention specifically.</p>
       </div>
       <div class="pcard good">
         <h3>What CausalNetTwin does</h3>
@@ -248,11 +248,11 @@
     <p class="section-sub">Telemetry and context feed a causal world model; the counterfactual engine screens candidate actions against the safety gate before anything is deployed; the verifier watches the outcome and restores the previous state on material deviation.</p>
     <figure class="figure">
       <img src="assets/architecture.png" alt="CausalNetTwin safety-validated remediation workflow: production fabric to telemetry plane to causal world model to counterfactual intervention engine to safety-constrained agent to verified deployment and rollback, with measured outcome feedback closing the loop.">
-      <figcaption>Fig. 1 — Safety-validated remediation workflow (six stages, closed-loop verification).</figcaption>
+      <figcaption>Fig. 1: Safety-validated remediation workflow (six stages, closed-loop verification).</figcaption>
     </figure>
     <figure class="figure">
       <img src="assets/causal_graph.png" alt="Structural causal graph: workload phase and storage I/O pressure as parent context variables feeding path load and queue occupancy, which drive ECN marking, packet loss, P99 FCT, and SLO risk; candidate action is an intervention variable on path load and queue occupancy.">
-      <figcaption>Fig. 2 — Structural causal graph used for action-conditioned intervention testing. Workload phase and storage pressure are retained as explicit parents so a correlation model can't mistake a phase transition for an intervention effect.</figcaption>
+      <figcaption>Fig. 2: Structural causal graph used for action-conditioned intervention testing. Workload phase and storage pressure are retained as explicit parents so a correlation model can't mistake a phase transition for an intervention effect.</figcaption>
     </figure>
     <div class="flow">
       <div class="flow-row">
@@ -261,7 +261,7 @@
         <div class="flow-box"><b>2. Estimate Y(a) under do(A=a)</b><span>The counterfactual engine clones current state, applies the intervention, and rolls forward with uncertainty intervals and a causal attribution trace.</span></div>
       </div>
       <div class="flow-row">
-        <div class="flow-box"><b>3. Safety gate</b><span>Reject any candidate whose predicted confidence bound violates P99 FCT, loss, fairness, churn, or SLO limits — even if its expected mean is better. No-action is a valid result.</span></div>
+        <div class="flow-box"><b>3. Safety gate</b><span>Reject any candidate whose predicted confidence bound violates P99 FCT, loss, fairness, churn, or SLO limits, even if its expected mean is better. No-action is a valid result.</span></div>
         <div class="flow-arrow">→</div>
         <div class="flow-box"><b>4. Deploy, verify, rollback</b><span>Canary the approved action; if observed P99 latency or loss exceeds its predicted value by more than 20% and the deviation is harmful, restore the previous configuration and flag model review.</span></div>
       </div>
@@ -271,9 +271,9 @@
 
 <section id="results">
   <div class="wrap">
-    <div class="eyebrow">Real simulator output — 1,080 trials, 30 seeds</div>
+    <div class="eyebrow">Real simulator output: 1,080 trials, 30 seeds</div>
     <h2>Lower tail latency, and far fewer harmful accepted actions</h2>
-    <p class="section-sub">Generated by <code>experiments/run_benchmark.py</code> against the reproducible structural simulator — every number below is read directly from <code>results/*.csv</code> in the repository, not hand-picked. Six control methods, six workload/failure scenarios, common random numbers across all methods.</p>
+    <p class="section-sub">Generated by <code>experiments/run_benchmark.py</code> against the reproducible structural simulator; every number below is read directly from <code>results/*.csv</code> in the repository, not hand-picked. Six control methods, six workload/failure scenarios, common random numbers across all methods.</p>
 
     <div class="barchart">
       <div class="bar-row"><div class="bar-label">ECMP</div><div class="bar-track"><div class="bar-fill baseline" style="width:73.2%"></div></div><div class="bar-val">21.23 ms</div></div>
@@ -307,11 +307,11 @@
       <tr class="highlight"><td><b>CausalNetTwin</b></td><td class="num hl">94.03</td><td class="num hl">99.35</td><td class="num hl">0.03</td><td class="num hl">0.62</td><td class="num hl">5.25</td></tr>
     </table>
     </div>
-    <p class="section-sub">Diagnostic accuracy and action safety. CausalNetTwin localizes the simulated congestion source correctly in 94.03% of intervention windows and accepts a harmful action in only 0.03% of decisions — down from 10.30% for a non-causal twin and 27.95% for correlation-based ML — while keeping a 99.35% success rate among accepted interventions.</p>
+    <p class="section-sub">Diagnostic accuracy and action safety. CausalNetTwin localizes the simulated congestion source correctly in 94.03% of intervention windows and accepts a harmful action in only 0.03% of decisions, down from 10.30% for a non-causal twin and 27.95% for correlation-based ML, while keeping a 99.35% success rate among accepted interventions.</p>
 
     <figure class="figure">
-      <img src="assets/p99_comparison.png" alt="Bar chart: aggregate P99 flow completion time in milliseconds by control method — ECMP 21.2, Static-TE 23.3, Correlation-ML 29.0, DRL 25.0, Twin-No-Causal 15.0, CausalNetTwin 8.2.">
-      <figcaption>Fig. 3 — Aggregate P99 FCT by control method, as generated directly from the trial CSVs.</figcaption>
+      <img src="assets/p99_comparison.png" alt="Bar chart: aggregate P99 flow completion time in milliseconds by control method: ECMP 21.2, Static-TE 23.3, Correlation-ML 29.0, DRL 25.0, Twin-No-Causal 15.0, CausalNetTwin 8.2.">
+      <figcaption>Fig. 3: Aggregate P99 FCT by control method, as generated directly from the trial CSVs.</figcaption>
     </figure>
 
     <div class="table-scroll">
@@ -325,7 +325,7 @@
       <tr><td>Backup + AI collision</td><td class="num">25.79</td><td class="num">26.90</td><td class="num hl">19.58</td></tr>
     </table>
     </div>
-    <p class="section-sub">P99 FCT by stress scenario. The hardest case — backup replication colliding with AI collective traffic in an oversubscribed fabric — exceeds the nominal 12&nbsp;ms target for every method, because demand exceeds safe capacity. CausalNetTwin still lowers the tail and rejects unsafe route migration rather than fabricating spare capacity.</p>
+    <p class="section-sub">P99 FCT by stress scenario. The hardest case (backup replication colliding with AI collective traffic in an oversubscribed fabric) exceeds the nominal 12&nbsp;ms target for every method, because demand exceeds safe capacity. CausalNetTwin still lowers the tail and rejects unsafe route migration rather than fabricating spare capacity.</p>
   </div>
 </section>
 
@@ -333,7 +333,7 @@
   <div class="wrap">
     <div class="eyebrow">Cost of causal adjustment</div>
     <h2>7.19 ms inference, 2.65% telemetry overhead</h2>
-    <p class="section-sub">The counterfactual MAPE is 7.78% for CausalNetTwin versus 13.49% for the non-causal twin and above 18% for correlation-ML/DRL. The additional 1.49 ms over the non-causal twin is the measured cost of causal adjustment, candidate screening, and uncertainty checks — well below the control-window duration used in the experiments.</p>
+    <p class="section-sub">The counterfactual MAPE is 7.78% for CausalNetTwin versus 13.49% for the non-causal twin and above 18% for correlation-ML/DRL. The additional 1.49 ms over the non-causal twin is the measured cost of causal adjustment, candidate screening, and uncertainty checks, well below the control-window duration used in the experiments.</p>
     <div class="table-scroll">
     <table>
       <tr><th>Method</th><th>Counterfactual MAPE %</th><th>Telemetry overhead %</th><th>Inference ms</th></tr>
@@ -350,7 +350,7 @@
   <div class="wrap">
     <div class="eyebrow">Reproduce it yourself</div>
     <h2>Every table above regenerates from a fixed seed</h2>
-    <p class="section-sub">Structural, event-driven simulator — not a packet-level substitute for ns-3 or a P4 testbed. Six automated tests verify deterministic reproduction, safety rejection, rollback behavior, and tail-latency improvement.</p>
+    <p class="section-sub">Structural, event-driven simulator (not a packet-level substitute for ns-3 or a P4 testbed). Six automated tests verify deterministic reproduction, safety rejection, rollback behavior, and tail-latency improvement.</p>
     <pre><span class="c"># clone, install, and reproduce</span>
 git clone https://github.com/sunilgentyala/CausalNetTwin.git
 <span class="k">cd</span> CausalNetTwin_Repo
@@ -367,9 +367,9 @@ python -m causalnettwin.cli --output results --seeds <span class="n">30</span> -
     <h2>Limitations and the evidence boundary</h2>
     <ul class="lim-list">
       <li>This is a <b>structural control-plane simulation</b>, not a claim of packet-level fidelity or production readiness. It does not reproduce packet scheduling, NIC behavior, PFC, exact RDMA transport, switch-buffer microarchitecture, or controller transport delay.</li>
-      <li>Common seeds and identical workload shocks across methods strengthen internal validity, but parameter choices and graph structure may still favor the proposed design — code and trial records are exposed for independent perturbation and ablation.</li>
+      <li>Common seeds and identical workload shocks across methods strengthen internal validity, but parameter choices and graph structure may still favor the proposed design; code and trial records are exposed for independent perturbation and ablation.</li>
       <li>Causal validity depends on the assumed graph and observed context. Missing edges, stale labels, or unmeasured workload phases can bias an intervention estimate.</li>
-      <li>The 95% confidence intervals summarize simulator trials — they are not packet-level confidence and are not evidence of production safety.</li>
+      <li>The 95% confidence intervals summarize simulator trials; they are not packet-level confidence and are not evidence of production safety.</li>
     </ul>
   </div>
 </section>
@@ -394,7 +394,7 @@ python -m causalnettwin.cli --output results --seeds <span class="n">30</span> -
 <section id="cite">
   <div class="wrap">
     <div class="eyebrow">Citation</div>
-    <h2>Companion manuscript — IEEE INFOCOM 2027 (submitted)</h2>
+    <h2>Companion manuscript: IEEE INFOCOM 2027 (submitted)</h2>
     <p class="section-sub">The manuscript itself is intentionally not stored in this repository, in line with IEEE's prior-publication policy. Cite the software artifact via <code>CITATION.cff</code> until the paper is accepted.</p>
     <pre><span class="c">@software</span>{causalnettwin2026,
   <span class="k">author</span> = <span class="s">{Gentyala, Sunil and Darisi, Suresh Kumar and Martin, John and Caprio, Floriano}</span>,
