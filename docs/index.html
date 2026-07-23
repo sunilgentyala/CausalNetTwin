@@ -135,6 +135,13 @@
   .lim-list li:last-child{border-bottom:none}
   .lim-list li::before{content:"—";color:var(--warn);flex-shrink:0}
 
+  .authors-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media (max-width:700px){ .authors-grid{grid-template-columns:1fr} }
+  .author-card{background:var(--bg2);border:1px solid var(--border-soft);border-radius:10px;padding:18px}
+  .author-card .name{font-size:15px;font-weight:700;color:#f8fafc}
+  .author-card .role{font-size:13px;color:var(--text-dim);margin-top:4px}
+  .author-card .corresponding{display:inline-block;margin-top:10px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);color:var(--accent)}
+
   footer{padding:40px 0 60px;text-align:center;color:var(--text-faint);font-size:12.5px}
   footer a{color:var(--text-dim)}
 </style>
@@ -150,6 +157,7 @@
       <a href="#results">Results</a>
       <a href="#limitations">Limitations</a>
       <a href="#roadmap">Roadmap</a>
+      <a href="#authors">Authors</a>
       <a href="https://github.com/sunilgentyala/CausalNetTwin">GitHub</a>
     </div>
   </div>
@@ -397,9 +405,35 @@ python -m causalnettwin.cli --output results --seeds <span class="n">30</span> -
   </div>
 </section>
 
+<section id="authors">
+  <div class="wrap">
+    <div class="eyebrow">Who built this</div>
+    <h2>Authors</h2>
+    <div class="authors-grid">
+      <div class="author-card">
+        <div class="name">Sunil Gentyala</div>
+        <div class="role">HCLTech</div>
+        <span class="corresponding">Corresponding author</span>
+      </div>
+      <div class="author-card">
+        <div class="name">Suresh Kumar Darisi</div>
+        <div class="role">Rocket Software</div>
+      </div>
+      <div class="author-card">
+        <div class="name">John Martin</div>
+        <div class="role">HCLTech, Auckland, New Zealand</div>
+      </div>
+      <div class="author-card">
+        <div class="name">Floriano Caprio</div>
+        <div class="role">Università Campus Bio-Medico di Roma</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    Research artifact by Sunil Gentyala · Apache License 2.0 ·
+    Research artifact by Sunil Gentyala, Suresh Kumar Darisi, John Martin &amp; Floriano Caprio · Apache License 2.0 ·
     <a href="https://github.com/sunilgentyala/CausalNetTwin">github.com/sunilgentyala/CausalNetTwin</a>
   </div>
 </footer>

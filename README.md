@@ -56,7 +56,12 @@ The included benchmark is a deterministic structural and event-driven research s
 
 ## Authors
 
-Sunil Gentyala, corresponding author; Suresh Kumar Darisi; John Martin, HCLTech, Auckland, New Zealand; Floriano Caprio, Università Campus Bio-Medico di Roma.
+| Author | Affiliation |
+|---|---|
+| **Sunil Gentyala** *(corresponding author)* | HCLTech |
+| **Suresh Kumar Darisi** | Rocket Software |
+| **John Martin** | HCLTech, Auckland, New Zealand |
+| **Floriano Caprio** | Università Campus Bio-Medico di Roma |
 
 ## License
 
