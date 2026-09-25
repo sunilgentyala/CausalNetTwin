@@ -63,6 +63,22 @@ The included benchmark is a deterministic structural and event-driven research s
 | **John Martin** | HCLTech, Auckland, New Zealand |
 | **Floriano Caprio** | Università Campus Bio-Medico di Roma |
 
+## How to Cite
+
+If you use CausalNetTwin Research Artifact in your research, please cite the software:
+
+```bibtex
+@software{gentyala2026causalnettwin,
+  author    = {Gentyala, Sunil and Darisi, Suresh Kumar and Martin, John and Caprio, Floriano},
+  title     = {CausalNetTwin Research Artifact},
+  year      = {2026},
+  version   = {0.1.0},
+  url       = {https://github.com/sunilgentyala/CausalNetTwin}
+}
+```
+
+Machine-readable metadata is in [`CITATION.cff`](CITATION.cff); GitHub shows it under "Cite this repository".
+
 ## License
 
 Apache License 2.0. See `LICENSE`.
